@@ -2,6 +2,7 @@ package vcfg
 
 import (
 	"github.com/spf13/viper"
+	_ "github.com/spf13/viper/remote"
 	"os"
 	"time"
 	"log"
@@ -11,10 +12,10 @@ type VConfig struct {
 	viper *viper.Viper
 }
 
-func NewVConfig() (*VConfig, error) {
+func NewVConfig() *VConfig {
 	return &VConfig{
 		viper: viper.New(),
-	}, nil
+	}
 }
 
 // Unmarshal decode to struct.
