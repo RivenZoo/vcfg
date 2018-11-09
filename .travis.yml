@@ -4,6 +4,6 @@ go:
 jobs:
   include:
     - stage: test
-      script: go test ./...
+      script: go test ./... -run ReadAndUnmarshal
     - stage: build
       script: go build .
