@@ -91,3 +91,21 @@ func (vc *VConfig) WatchRemoteConfig(opt *RemoteConfigOption) (<-chan struct{}, 
 
 	return updateSignal, nil
 }
+
+var defaultCfg *VConfig = NewVConfig()
+
+func Unmarshal(dest interface{}) error {
+	return defaultCfg.Unmarshal(dest)
+}
+
+func ReadConfig(cfgFile string) error {
+	return defaultCfg.ReadConfig(cfgFile)
+}
+
+func UnmarshalConfig(cfgFile string, dest interface{}) (err error) {
+	return defaultCfg.UnmarshalConfig(cfgFile, dest)
+}
+
+func WatchRemoteConfig(opt *RemoteConfigOption) (<-chan struct{}, error) {
+	return defaultCfg.WatchRemoteConfig(opt)
+}
