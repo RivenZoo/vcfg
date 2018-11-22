@@ -3,9 +3,10 @@ package vcfg
 import (
 	"github.com/spf13/viper"
 	_ "github.com/spf13/viper/remote"
-	"os"
-	"time"
 	"log"
+	"os"
+	"path/filepath"
+	"time"
 )
 
 type VConfig struct {
@@ -33,6 +34,7 @@ func (vc *VConfig) ReadConfig(cfgFile string) error {
 		return err
 	}
 	defer f.Close()
+	vc.viper.SetConfigType(detectConfigType(cfgFile))
 	return vc.viper.ReadConfig(f)
 }
 
@@ -108,4 +110,15 @@ func UnmarshalConfig(cfgFile string, dest interface{}) (err error) {
 
 func WatchRemoteConfig(opt *RemoteConfigOption) (<-chan struct{}, error) {
 	return defaultCfg.WatchRemoteConfig(opt)
+}
+
+// detectConfigType set default file type to json, support .json | .yaml | .yml
+func detectConfigType(fpath string) string {
+	switch filepath.Ext(fpath) {
+	case ".json":
+		return "json"
+	case ".yaml", ".yml":
+		return "yaml"
+	}
+	return "json"
 }

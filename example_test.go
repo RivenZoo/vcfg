@@ -58,11 +58,14 @@ func ExampleVConfig_ReadAndUnmarshal() {
 	if err != nil {
 		log.Panicf("Unmarshal error: %v", err)
 	}
-	fmt.Println("Unmarshal success")
+	if testCfg.Address == "" {
+		log.Panicf("read address fail")
+	}
+	fmt.Printf("Unmarshal success, address: %s, port: %d", testCfg.Address, testCfg.Port)
 
 	// Output:
 	// ReadConfig success
-	// Unmarshal success
+	// Unmarshal success, address: localhost, port: 80
 }
 
 func ExampleVConfig_WatchRemoteConfig() {
